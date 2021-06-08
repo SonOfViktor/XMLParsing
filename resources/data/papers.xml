@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<papers xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance"
-        xmlns = "http://www.fairycompany.com/papers"
-        xsi:schemaLocation = "http://www.fairlycompany.com/papers papers.xsd">
+<papers xmlns="http://www.fairycompany.com/papers">
 
     <newspaper age-category="anyone" website="www.sb.by">
         <name>Советская Беларусь</name>
@@ -100,9 +98,9 @@
         <frequency>weekly</frequency>
     </newspaper>
 
-    <magazine age-category = "anyone" website = "www.igromania.ru">
+    <magazine age-category="anyone" website="www.igromania.ru">
         <name>Игромания</name>
-        <subscription-index>i763985</subscription-index>
+        <subscription-index>i76398</subscription-index>
         <issue>1548</issue>
         <pages>208</pages>
         <price>20.00</price>
@@ -111,9 +109,9 @@
         <direction>gaming</direction>
     </magazine>
 
-    <magazine age-category = "anyone">
+    <magazine age-category="anyone">
         <name>Speak English</name>
-        <subscription-index>i879542</subscription-index>
+        <subscription-index>i87954</subscription-index>
         <issue>450</issue>
         <pages>110</pages>
         <price>18.00</price>
@@ -122,7 +120,7 @@
         <direction>training</direction>
     </magazine>
 
-    <magazine age-category = "adult">
+    <magazine age-category="adult">
         <name>Playboy</name>
         <subscription-index>i18390</subscription-index>
         <issue>3548</issue>
@@ -133,9 +131,9 @@
         <direction>erotic</direction>
     </magazine>
 
-    <magazine age-category = "child">
+    <magazine age-category="child">
         <name>Мурзилка</name>
-        <subscription-index>i123801</subscription-index>
+        <subscription-index>i12380</subscription-index>
         <issue>511</issue>
         <pages>32</pages>
         <price>6.50</price>
@@ -144,9 +142,9 @@
         <direction>entertainment</direction>
     </magazine>
 
-    <magazine age-category = "teenager">
+    <magazine age-category="teenager">
         <name>Cool</name>
-        <subscription-index>i200561</subscription-index>
+        <subscription-index>i20056</subscription-index>
         <issue>1548</issue>
         <pages>63</pages>
         <price>8.50</price>
@@ -155,9 +153,9 @@
         <direction>entertainment</direction>
     </magazine>
 
-    <magazine age-category = "anyone" website = "www.bolshoisport.ru">
+    <magazine age-category="anyone" website="www.bolshoisport.ru">
         <name>Большой Спорт</name>
-        <subscription-index>i123547</subscription-index>
+        <subscription-index>i12354</subscription-index>
         <issue>240</issue>
         <pages>150</pages>
         <price>17.00</price>
@@ -166,9 +164,9 @@
         <direction>sport</direction>
     </magazine>
 
-    <magazine age-category = "anyone">
+    <magazine age-category="anyone">
         <name>Народный доктор</name>
-        <subscription-index>i145671</subscription-index>
+        <subscription-index>i14567</subscription-index>
         <issue>580</issue>
         <pages>98</pages>
         <price>12.00</price>
@@ -177,9 +175,9 @@
         <direction>health</direction>
     </magazine>
 
-    <magazine age-category = "anyone" website = "www.internauka.org">
+    <magazine age-category="anyone" website="www.internauka.org">
         <name>Интернаука</name>
-        <subscription-index>i457813</subscription-index>
+        <subscription-index>i45781</subscription-index>
         <issue>360</issue>
         <pages>68</pages>
         <price>23.50</price>
