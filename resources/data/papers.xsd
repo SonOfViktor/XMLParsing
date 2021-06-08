@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema xmlns = "http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.fairycompany.com/papers"
+        xmlns:tns="http://www.fairycompany.com/papers"
+        elementFormDefault="qualified">
+
+    <element name="paper" type="tns:Paper" abstract="true"/>
+    <element name="newspaper" type="tns:Newspaper" substitutionGroup="tns:paper"/>
+    <element name="magazine" type = "tns:Magazine" substitutionGroup="tns:paper"/>
+    <element name = "papers">
+        <complexType>
+            <sequence>
+                <element ref = "tns:paper"
+                         minOccurs="2"
+                         maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="Paper">
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="subscription-index" type = "tns:IndexID"/>
+            <element name="issue" type="positiveInteger"/>
+            <element name="pages" type="positiveInteger"/>
+            <element name="price">
+                <simpleType>
+                    <restriction base="double">
+                        <minExclusive value="0.0"/>  <!-- Разобраться -->
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="issue-date" type="date"/>
+            <element name="circulation" type="positiveInteger"/>
+        </sequence>
+        <attribute name="website" type="tns:WebsiteID" use = "optional" default = "no site"/>
+        <attribute name="age-category" use = "required">
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="adult"/>
+                    <enumeration value="child"/>
+                    <enumeration value="teenager"/>
+                    <enumeration value="anyone"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+
+    </complexType>
+
+    <complexType name="Newspaper">
+        <complexContent>
+            <extension base="tns:Paper">
+                <sequence>
+                    <element name="color" type="boolean"/>
+                    <element name="frequency">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="daily"/>
+                                <enumeration value="weekly"/>
+                                <enumeration value="monthly"/>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="Magazine">
+        <complexContent>
+            <extension base="tns:Paper">
+                <sequence>
+                    <element name="direction" type = "tns:Direction"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <simpleType name = "IndexID">
+        <restriction base = "ID">
+            <pattern value = "i\d{1,6}"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name = "WebsiteID">
+        <restriction base = "ID">
+            <pattern value = "www\.\w{2,20}\.[a-z]{2,4}"/>
+        </restriction>
+    </simpleType>
+
+    <simpleType name="Direction">
+        <restriction base="string">
+            <enumeration value="sport"/>
+            <enumeration value="gaming"/>
+            <enumeration value="erotic"/>
+            <enumeration value="entertainment"/>
+            <enumeration value="science"/>
+            <enumeration value="training"/>
+            <enumeration value="health"/>
+        </restriction>
+    </simpleType>
+
+</schema>
