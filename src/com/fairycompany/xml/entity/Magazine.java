@@ -1,25 +1,23 @@
 package com.fairycompany.xml.entity;
 
-import java.time.LocalDate;
-
 public class Magazine extends AbstractPaper {
-    private String direction;
+    private Direction direction;
 
     public Magazine() {
 
     }
 
     public Magazine(String name, String subscriptionIndex, String website, String ageCategory,
-                    int circulation, PaperProperties paperProperties, String direction) {
+                    int circulation, PaperProperties paperProperties, Direction direction) {
         super(name, subscriptionIndex, website, ageCategory, circulation, paperProperties);
         this.direction = direction;
     }
 
-    public String getDirection() {
+    public Direction getDirection() {
         return direction;
     }
 
-    public void setDirection(String direction) {
+    public void setDirection(Direction direction) {
         this.direction = direction;
     }
 
@@ -27,7 +25,7 @@ public class Magazine extends AbstractPaper {
     public String toString() {
         final StringBuilder magazine = new StringBuilder();
         magazine.append(super.toString())
-                .append("\nDirection ").append(direction);
+                .append("\nDirection: ").append(direction);
         return magazine.toString();
     }
 }

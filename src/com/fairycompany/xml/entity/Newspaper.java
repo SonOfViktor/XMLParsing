@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class Newspaper extends AbstractPaper {
     private boolean color;
-    private String frequency;
+    private Frequency frequency;
 
     public Newspaper() {
 
     }
 
     public Newspaper(String name, String subscriptionIndex, String website, String ageCategory,
-                     int circulation, PaperProperties paperProperties, boolean color, String frequency) {
+                     int circulation, PaperProperties paperProperties, boolean color, Frequency frequency) {
         super(name, subscriptionIndex, website, ageCategory, circulation, paperProperties);
         this.color = color;
         this.frequency = frequency;
@@ -25,23 +25,27 @@ public class Newspaper extends AbstractPaper {
         this.color = color;
     }
 
-    public String getFrequency() {
+    public Frequency getFrequency() {
         return frequency;
     }
 
-    public void setFrequency(String frequency) {
+    public void setFrequency(Frequency frequency) {
         this.frequency = frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = Frequency.valueOf(frequency.toUpperCase());
     }
 
     @Override
     public String toString() {
         final StringBuilder newspaper = new StringBuilder();
         newspaper.append(super.toString())
-                .append("\nFrequency ").append(frequency);
+                .append("\nFrequency: ").append(frequency);
         if (color) {
-            newspaper.append("\nColor polychrome");
+            newspaper.append("\nColor: Polychrome");
         } else {
-            newspaper.append("\nColor monochrome");
+            newspaper.append("\nColor: Monochrome");
         }
         return newspaper.toString();
     }

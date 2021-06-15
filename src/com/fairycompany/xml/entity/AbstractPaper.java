@@ -6,7 +6,7 @@ public abstract class AbstractPaper {
     private String name;
     private String subscriptionIndex;
     private String website;
-    private String ageCategory;
+    private AgeCategory ageCategory;
     private int circulation;
     private PaperProperties paperProperties = new PaperProperties();
 
@@ -14,7 +14,7 @@ public abstract class AbstractPaper {
 
     }
 
-    public AbstractPaper(String name, String subscriptionIndex, String website, String ageCategory,
+    public AbstractPaper(String name, String subscriptionIndex, String website, AgeCategory ageCategory,
              int circulation, PaperProperties paperProperties) {
         this.name = name;
         this.subscriptionIndex = subscriptionIndex;
@@ -48,12 +48,16 @@ public abstract class AbstractPaper {
         this.website = website;
     }
 
-    public String getAgeCategory() {
+    public AgeCategory getAgeCategory() {
         return ageCategory;
     }
 
-    public void setAgeCategory(String ageCategory) {
+    public void setAgeCategory(AgeCategory ageCategory) {
         this.ageCategory = ageCategory;
+    }
+
+    public void setAgeCategory(String ageCategory) {
+        this.ageCategory = AgeCategory.valueOf(ageCategory.toUpperCase());      // can I do this?
     }
 
     public int getCirculation() {
@@ -76,13 +80,13 @@ public abstract class AbstractPaper {
     public String toString() {
         final StringBuilder paper = new StringBuilder("");
         if (getWebsite() != null) {
-            paper.append("\nWebsite ").append(website);
+            paper.append("\nWebsite: ").append(website);
         }
         paper.append("\nName: ").append(name)
-                .append("\nAge category ").append(ageCategory)
-                .append("\nSubscription index ").append(subscriptionIndex)
+                .append("\nAge category: ").append(ageCategory)
+                .append("\nSubscription index: ").append(subscriptionIndex)
                 .append(paperProperties)
-                .append("\nCirculation ").append(circulation);
+                .append("\nCirculation: ").append(circulation);
         return paper.toString();
     }
 }

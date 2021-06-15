@@ -25,14 +25,14 @@
             <element name="circulation" type="positiveInteger"/>
         </sequence>
         <attribute name="website" type="tns:Website"/>
-        <attribute name="age-category" type="tns:AgeCategory" use="required" default="anyone"/>
+        <attribute name="age-category" type="tns:AgeCategory" use="required"/>
     </complexType>
 
     <complexType name="Newspaper">
         <complexContent>
             <extension base="tns:Paper">
                 <sequence>
-                    <element name="color" type="boolean"/>
+                    <element name="color" type="boolean" default = "false"/>
                     <element name="frequency" type="tns:Frequency"/>
                 </sequence>
             </extension>

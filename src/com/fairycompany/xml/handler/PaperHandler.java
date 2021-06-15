@@ -1,23 +1,22 @@
 package com.fairycompany.xml.handler;
 
 import com.fairycompany.xml.entity.AbstractPaper;
+import com.fairycompany.xml.entity.Direction;
 import com.fairycompany.xml.entity.Magazine;
 import com.fairycompany.xml.entity.Newspaper;
-import com.fairycompany.xml.exception.XmlTaskException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
+
+import static com.fairycompany.xml.handler.PaperXmlTag.*;
 
 public class PaperHandler extends DefaultHandler {
     private static Logger logger = LogManager.getLogger();
@@ -25,13 +24,13 @@ public class PaperHandler extends DefaultHandler {
     private AbstractPaper currentPaper;
     private PaperXmlTag currentXmlTag;
     private EnumSet<PaperXmlTag> withText;
-    private static final String ELEMENT_NEWSPAPER = "newspaper";
-    private static final String ELEMENT_MAGAZINE = "magazine";
-    private static final String TRUE = "true";
+    private static final String DATE_PATTERN = "yyyy-MM-dd";
+    private static final String HYPHEN = "-";
+    private static final String UNDERSCORE = "_";
 
     public PaperHandler() {
-        papers = new HashSet<AbstractPaper>();
-        withText = EnumSet.range(PaperXmlTag.NAME, PaperXmlTag.DIRECTION);
+        papers = new HashSet<>();
+        withText = EnumSet.range(NAME, DIRECTION);
     }
 
     public Set<AbstractPaper> getPapers() {
@@ -39,27 +38,27 @@ public class PaperHandler extends DefaultHandler {
     }
 
     @Override
-    public void startDocument() throws SAXException {
+    public void startDocument(){
         logger.log(Level.INFO, "Parsing started");
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if (ELEMENT_NEWSPAPER.equals(qName) || ELEMENT_MAGAZINE.equals(qName)) {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        if (NEWSPAPER.getValue().equals(qName) || MAGAZINE.getValue().equals(qName)) {
             switch (qName) {
-                case ELEMENT_NEWSPAPER:
+                case "newspaper":                   //fixme
                     currentPaper = new Newspaper();
                     break;
-                case ELEMENT_MAGAZINE:
+                case "magazine":
                     currentPaper = new Magazine();
                     break;
             }
-            currentPaper.setAgeCategory(attributes.getValue("age-category"));
+            currentPaper.setAgeCategory(attributes.getValue(AGE_CATEGORY.getValue()));
             if (attributes.getLength() == 2) {
-                currentPaper.setWebsite(attributes.getValue("website"));
+                currentPaper.setWebsite(attributes.getValue(WEBSITE.getValue()));
             }
         } else {
-            PaperXmlTag temp = PaperXmlTag.valueOf(qName.toUpperCase().replaceAll("-", "_"));
+            PaperXmlTag temp = PaperXmlTag.valueOf(qName.toUpperCase().replaceAll(HYPHEN, UNDERSCORE));
             if (withText.contains(temp)) {
                 currentXmlTag = temp;
             }
@@ -67,7 +66,7 @@ public class PaperHandler extends DefaultHandler {
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
+    public void characters(char[] ch, int start, int length) {
         String data = new String(ch, start, length).trim();
         if (currentXmlTag != null) {
             switch(currentXmlTag) {
@@ -93,17 +92,13 @@ public class PaperHandler extends DefaultHandler {
                     currentPaper.setCirculation(Integer.parseInt(data));
                     break;
                 case COLOR:
-                    if (TRUE.equals(data)) {
-                        ((Newspaper) currentPaper).setColor(true);
-                    } else {
-                        ((Newspaper) currentPaper).setColor(false);
-                    }
+                    ((Newspaper) currentPaper).setColor(Boolean.parseBoolean(data));
                     break;
                 case FREQUENCY:
                     ((Newspaper) currentPaper).setFrequency(data);
                     break;
                 case DIRECTION:
-                    ((Magazine) currentPaper).setDirection(data);
+                    ((Magazine) currentPaper).setDirection(Direction.valueOf(data.toUpperCase()));
                     break;
                 default:
                     throw new EnumConstantNotPresentException(currentXmlTag.getDeclaringClass(), currentXmlTag.name());
@@ -113,14 +108,14 @@ public class PaperHandler extends DefaultHandler {
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (ELEMENT_NEWSPAPER.equals(qName) || ELEMENT_MAGAZINE.equals(qName)) {
+    public void endElement(String uri, String localName, String qName) {
+        if (NEWSPAPER.getValue().equals(qName) || MAGAZINE.getValue().equals(qName)) {
             papers.add(currentPaper);
         }
     }
 
     @Override
-    public void endDocument() throws SAXException {
+    public void endDocument() {
         logger.log(Level.INFO, "Parsing ended");
     }
 
@@ -128,7 +123,7 @@ public class PaperHandler extends DefaultHandler {
         DateTimeFormatter dateTimeFormatter;
         LocalDate date;
 
-        dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        dateTimeFormatter = DateTimeFormatter.ofPattern(DATE_PATTERN);
         date = LocalDate.parse(data, dateTimeFormatter);
 
         return date;

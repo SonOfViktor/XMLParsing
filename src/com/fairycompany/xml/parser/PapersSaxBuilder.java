@@ -1,8 +1,8 @@
 package com.fairycompany.xml.parser;
 
-import com.fairycompany.xml.entity.AbstractPaper;
-import com.fairycompany.xml.handler.PaperErrorHandler;
+import com.fairycompany.xml.exception.XmlTaskException;
 import com.fairycompany.xml.handler.PaperHandler;
+import com.fairycompany.xml.validator.PaperXmlValidator;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,11 +13,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
-import java.util.Set;
 
-public class PapersSaxBuilder {
+public class PapersSaxBuilder extends AbstractPaperBuilder{
     private static Logger logger = LogManager.getLogger();
-    private Set<AbstractPaper> papers;
     private PaperHandler handler = new PaperHandler();
     private XMLReader reader;
 
@@ -25,23 +23,24 @@ public class PapersSaxBuilder {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         try {
             SAXParser saxParser = factory.newSAXParser();
-            reader =saxParser.getXMLReader();
-        } catch (ParserConfigurationException | SAXException e) {
-            logger.log(Level.ERROR, "Шеф, всё пропало");    //fixme
+            reader = saxParser.getXMLReader();
+        } catch (ParserConfigurationException e) {
+            logger.log(Level.ERROR, "Parser cannot be created which satisfies the requested configuration");
+        } catch (SAXException e) {
+            logger.log(Level.ERROR, "any SAX errors occur during processing");
         }
-        reader.setErrorHandler(new PaperErrorHandler());
         reader.setContentHandler(handler);
     }
 
-    public Set<AbstractPaper> getPapers() {
-        return papers;
-    }
-
-    public void buildSetPapers(String filename) {
+    @Override
+    public void buildSetPapers(String fileName) throws XmlTaskException{
+        if (!PaperXmlValidator.validatePaperXml(fileName)) {
+            throw new XmlTaskException("File " + fileName + " hasn't passed validation!");
+        }
         try {
-            reader.parse(filename);
+            reader.parse(fileName);
         } catch (IOException | SAXException e) {
-            logger.log(Level.ERROR, "И тут шеф всё не очень"); //fixme
+            logger.log(Level.ERROR, "Any SAX or IO Exception during parsing " + fileName);
         }
         papers = handler.getPapers();
     }
