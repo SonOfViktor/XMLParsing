@@ -5,6 +5,7 @@ public enum Frequency {
     WEEKLY,
     MONTHLY;
 
+    @Override
     public String toString() {
         char firstLetter = name().charAt(0);
         StringBuilder string = new StringBuilder(name().toLowerCase());

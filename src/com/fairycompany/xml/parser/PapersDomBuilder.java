@@ -37,7 +37,7 @@ public class PapersDomBuilder extends AbstractPaperBuilder {
 
     public void buildSetPapers(String fileName) throws XmlTaskException {
         if (!PaperXmlValidator.validatePaperXml(fileName)) {
-            throw new XmlTaskException("File " + fileName + " hasn't passed validation!");
+            throw new XmlTaskException(String.format("File %s hasn't passed validation!", fileName));
         }
         Document document;
         try {
@@ -56,7 +56,7 @@ public class PapersDomBuilder extends AbstractPaperBuilder {
                 papers.add(magazine);
             }
         } catch (IOException | SAXException e) {
-            logger.log(Level.ERROR, "Any SAX or IO Exception during parsing " + fileName);
+            logger.log(Level.ERROR, "Any SAX or IO Exception during parsing {}", fileName);
         }
     }
 

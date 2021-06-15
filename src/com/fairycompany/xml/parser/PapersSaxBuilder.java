@@ -35,12 +35,12 @@ public class PapersSaxBuilder extends AbstractPaperBuilder {
     @Override
     public void buildSetPapers(String fileName) throws XmlTaskException {
         if (!PaperXmlValidator.validatePaperXml(fileName)) {
-            throw new XmlTaskException("File " + fileName + " hasn't passed validation!");
+            throw new XmlTaskException(String.format("File %s hasn't passed validation!", fileName));
         }
         try {
             reader.parse(fileName);
         } catch (IOException | SAXException e) {
-            logger.log(Level.ERROR, "Any SAX or IO Exception during parsing " + fileName);
+            logger.log(Level.ERROR, "Any SAX or IO Exception during parsing {}", fileName);
         }
         papers = handler.getPapers();
     }

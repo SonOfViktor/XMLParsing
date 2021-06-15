@@ -47,7 +47,7 @@ public class PapersStaxBuilder extends AbstractPaperBuilder {
                     StartElement startElement = event.asStartElement();
                     String textElement = startElement.getName().getLocalPart();
                     PaperXmlTag currentXmlTag;
-                    currentXmlTag = PaperXmlTag.valueOf(textElement.toUpperCase().replaceAll(HYPHEN, UNDERSCORE));
+                    currentXmlTag = PaperXmlTag.valueOf(textElement.toUpperCase().replace(HYPHEN, UNDERSCORE));
                     switch (currentXmlTag) {
                         case NEWSPAPER:
                             paper = new Newspaper();
@@ -96,7 +96,7 @@ public class PapersStaxBuilder extends AbstractPaperBuilder {
                                 StartElement startElementProperty = event.asStartElement();
                                 textElement = startElementProperty.getName().getLocalPart();
                                 currentXmlTag = PaperXmlTag.valueOf(textElement.toUpperCase()
-                                        .replaceAll(HYPHEN, UNDERSCORE));
+                                        .replace(HYPHEN, UNDERSCORE));
                                 switch (currentXmlTag) {
                                     case ISSUE:
                                         event = reader.nextEvent();

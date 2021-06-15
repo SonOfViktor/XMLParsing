@@ -45,20 +45,22 @@ public class PaperHandler extends DefaultHandler {
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         if (NEWSPAPER.getValue().equals(qName) || MAGAZINE.getValue().equals(qName)) {
-            switch (qName) {
-                case "newspaper":                   //fixme
+            currentXmlTag = valueOf(qName.toUpperCase());
+            switch (currentXmlTag) {
+                case NEWSPAPER:
                     currentPaper = new Newspaper();
                     break;
-                case "magazine":
+                case MAGAZINE:
                     currentPaper = new Magazine();
                     break;
             }
+            currentXmlTag = null;
             currentPaper.setAgeCategory(attributes.getValue(AGE_CATEGORY.getValue()));
             if (attributes.getLength() == 2) {
                 currentPaper.setWebsite(attributes.getValue(WEBSITE.getValue()));
             }
         } else {
-            PaperXmlTag temp = PaperXmlTag.valueOf(qName.toUpperCase().replaceAll(HYPHEN, UNDERSCORE));
+            PaperXmlTag temp = valueOf(qName.toUpperCase().replace(HYPHEN, UNDERSCORE));
             if (withText.contains(temp)) {
                 currentXmlTag = temp;
             }

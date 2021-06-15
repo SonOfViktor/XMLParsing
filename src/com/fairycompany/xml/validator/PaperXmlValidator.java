@@ -21,7 +21,7 @@ public class PaperXmlValidator {
     public static Boolean validatePaperXml(String fileName) {
         boolean isXmlRight = false;
         String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
-        String schemaName = "resources/data/papers.xsd";         // fixme if local var must be class var
+        String schemaName = "resources/data/papers.xsd";
         SchemaFactory factory = SchemaFactory.newInstance(language);
         File schemaLocation = new File(schemaName);
 
@@ -33,7 +33,7 @@ public class PaperXmlValidator {
             validator.validate(source);
             isXmlRight = true;
             logger.log(Level.DEBUG, "File is valid");
-        } catch (SAXException e) {    // null and empty catch
+        } catch (SAXException e) {                                                      // null and empty catch
             logger.log(Level.ERROR, "{} or {} is not correct of valid", fileName, schemaName);
         } catch (IOException e) {
             logger.log(Level.ERROR, "{} can't be read", fileName);
