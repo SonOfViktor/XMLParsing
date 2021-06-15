@@ -7,7 +7,7 @@ public class Magazine extends AbstractPaper {
 
     }
 
-    public Magazine(String name, String subscriptionIndex, String website, String ageCategory,
+    public Magazine(String name, String subscriptionIndex, String website, AgeCategory ageCategory,
                     int circulation, PaperProperties paperProperties, Direction direction) {
         super(name, subscriptionIndex, website, ageCategory, circulation, paperProperties);
         this.direction = direction;

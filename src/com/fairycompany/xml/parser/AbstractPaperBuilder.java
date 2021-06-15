@@ -16,7 +16,7 @@ public abstract class AbstractPaperBuilder {
         papers = new HashSet<>();
     }
 
-    public AbstractPaperBuilder (Set<AbstractPaper> papers) {
+    public AbstractPaperBuilder(Set<AbstractPaper> papers) {
         this.papers = papers;
     }
 

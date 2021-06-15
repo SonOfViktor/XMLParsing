@@ -7,7 +7,7 @@ public class PaperBuilderFactory {
 
     }
 
-    public static AbstractPaperBuilder createPaperBuilder (String typeParser) {
+    public static AbstractPaperBuilder createPaperBuilder(String typeParser) {
         TypeParser type = TypeParser.valueOf(typeParser.toUpperCase());
         switch (type) {
             case SAX:

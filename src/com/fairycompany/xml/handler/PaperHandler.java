@@ -38,7 +38,7 @@ public class PaperHandler extends DefaultHandler {
     }
 
     @Override
-    public void startDocument(){
+    public void startDocument() {
         logger.log(Level.INFO, "Parsing started");
     }
 
@@ -69,7 +69,7 @@ public class PaperHandler extends DefaultHandler {
     public void characters(char[] ch, int start, int length) {
         String data = new String(ch, start, length).trim();
         if (currentXmlTag != null) {
-            switch(currentXmlTag) {
+            switch (currentXmlTag) {
                 case NAME:
                     currentPaper.setName(data);
                     break;

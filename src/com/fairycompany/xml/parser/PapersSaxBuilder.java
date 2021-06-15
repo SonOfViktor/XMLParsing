@@ -14,7 +14,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 
-public class PapersSaxBuilder extends AbstractPaperBuilder{
+public class PapersSaxBuilder extends AbstractPaperBuilder {
     private static Logger logger = LogManager.getLogger();
     private PaperHandler handler = new PaperHandler();
     private XMLReader reader;
@@ -33,7 +33,7 @@ public class PapersSaxBuilder extends AbstractPaperBuilder{
     }
 
     @Override
-    public void buildSetPapers(String fileName) throws XmlTaskException{
+    public void buildSetPapers(String fileName) throws XmlTaskException {
         if (!PaperXmlValidator.validatePaperXml(fileName)) {
             throw new XmlTaskException("File " + fileName + " hasn't passed validation!");
         }

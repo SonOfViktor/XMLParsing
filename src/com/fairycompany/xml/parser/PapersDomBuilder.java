@@ -22,7 +22,7 @@ import java.io.IOException;
 
 import static com.fairycompany.xml.handler.PaperXmlTag.*;
 
-public class PapersDomBuilder extends AbstractPaperBuilder{
+public class PapersDomBuilder extends AbstractPaperBuilder {
     private static Logger logger = LogManager.getLogger();
     private DocumentBuilder documentBuilder;
 

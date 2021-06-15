@@ -1,7 +1,5 @@
 package com.fairycompany.xml.entity;
 
-import java.time.LocalDate;
-
 public abstract class AbstractPaper {
     private String name;
     private String subscriptionIndex;
@@ -15,7 +13,7 @@ public abstract class AbstractPaper {
     }
 
     public AbstractPaper(String name, String subscriptionIndex, String website, AgeCategory ageCategory,
-             int circulation, PaperProperties paperProperties) {
+                         int circulation, PaperProperties paperProperties) {
         this.name = name;
         this.subscriptionIndex = subscriptionIndex;
         this.website = website;

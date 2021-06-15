@@ -1,7 +1,5 @@
 package com.fairycompany.xml.entity;
 
-import java.time.LocalDate;
-
 public class Newspaper extends AbstractPaper {
     private boolean color;
     private Frequency frequency;
@@ -10,7 +8,7 @@ public class Newspaper extends AbstractPaper {
 
     }
 
-    public Newspaper(String name, String subscriptionIndex, String website, String ageCategory,
+    public Newspaper(String name, String subscriptionIndex, String website, AgeCategory ageCategory,
                      int circulation, PaperProperties paperProperties, boolean color, Frequency frequency) {
         super(name, subscriptionIndex, website, ageCategory, circulation, paperProperties);
         this.color = color;

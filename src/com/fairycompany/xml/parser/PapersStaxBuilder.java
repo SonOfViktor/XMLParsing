@@ -24,7 +24,7 @@ import java.io.FileNotFoundException;
 
 import static com.fairycompany.xml.handler.PaperXmlTag.*;
 
-public class PapersStaxBuilder extends AbstractPaperBuilder{
+public class PapersStaxBuilder extends AbstractPaperBuilder {
     private static Logger logger = LogManager.getLogger();
     private static final String HYPHEN = "-";
     private static final String UNDERSCORE = "_";
@@ -96,7 +96,7 @@ public class PapersStaxBuilder extends AbstractPaperBuilder{
                                 StartElement startElementProperty = event.asStartElement();
                                 textElement = startElementProperty.getName().getLocalPart();
                                 currentXmlTag = PaperXmlTag.valueOf(textElement.toUpperCase()
-                                                .replaceAll(HYPHEN, UNDERSCORE));
+                                        .replaceAll(HYPHEN, UNDERSCORE));
                                 switch (currentXmlTag) {
                                     case ISSUE:
                                         event = reader.nextEvent();
@@ -126,7 +126,7 @@ public class PapersStaxBuilder extends AbstractPaperBuilder{
                 if (event.isEndElement()) {
                     EndElement endElement = event.asEndElement();
                     String textElement = endElement.getName().getLocalPart();
-                    if (textElement.equals(NEWSPAPER.getValue()) || textElement.equals(MAGAZINE.getValue())){
+                    if (textElement.equals(NEWSPAPER.getValue()) || textElement.equals(MAGAZINE.getValue())) {
                         papers.add(paper);
                     }
                 }

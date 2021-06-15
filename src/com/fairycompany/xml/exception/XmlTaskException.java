@@ -1,6 +1,6 @@
 package com.fairycompany.xml.exception;
 
-public class XmlTaskException extends Exception{
+public class XmlTaskException extends Exception {
     public XmlTaskException() {
     }
 
