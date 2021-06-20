@@ -36,6 +36,28 @@ public class Newspaper extends AbstractPaper {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Newspaper)) return false;
+        if (!super.equals(o)) return false;
+
+        Newspaper newspaper = (Newspaper) o;
+
+        if (color != newspaper.color) return false;
+
+        return frequency == newspaper.frequency;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (color ? 1 : 0);
+        result = 31 * result + (frequency != null ? frequency.hashCode() : 0);
+
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder newspaper = new StringBuilder();
         newspaper.append(super.toString())
@@ -45,6 +67,7 @@ public class Newspaper extends AbstractPaper {
         } else {
             newspaper.append("\nColor: Monochrome");
         }
+
         return newspaper.toString();
     }
 }

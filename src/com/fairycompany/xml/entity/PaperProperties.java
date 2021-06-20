@@ -52,6 +52,33 @@ public class PaperProperties {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PaperProperties)) return false;
+
+        PaperProperties that = (PaperProperties) o;
+
+        if (issue != that.issue) return false;
+        if (pages != that.pages) return false;
+        if (Double.compare(that.price, price) != 0) return false;
+
+        return issueDate != null ? issueDate.equals(that.issueDate) : that.issueDate == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = issue;
+        result = 31 * result + pages;
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (issueDate != null ? issueDate.hashCode() : 0);
+
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder properties = new StringBuilder();
         properties.append("\nProperties:\n\tIssue: ").append(issue)

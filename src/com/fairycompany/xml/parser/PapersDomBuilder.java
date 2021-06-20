@@ -1,7 +1,6 @@
 package com.fairycompany.xml.parser;
 
 import com.fairycompany.xml.entity.AbstractPaper;
-import com.fairycompany.xml.entity.Direction;
 import com.fairycompany.xml.entity.Magazine;
 import com.fairycompany.xml.entity.Newspaper;
 import com.fairycompany.xml.exception.XmlTaskException;
@@ -28,6 +27,7 @@ public class PapersDomBuilder extends AbstractPaperBuilder {
 
     public PapersDomBuilder() {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
         try {
             documentBuilder = factory.newDocumentBuilder();
         } catch (ParserConfigurationException e) {
@@ -39,25 +39,34 @@ public class PapersDomBuilder extends AbstractPaperBuilder {
         if (!PaperXmlValidator.validatePaperXml(fileName)) {
             throw new XmlTaskException(String.format("File %s hasn't passed validation!", fileName));
         }
+
         Document document;
+
         try {
+            logger.log(Level.INFO, "DOM parsing has started");
             document = documentBuilder.parse(fileName);
             Element root = document.getDocumentElement();
             NodeList newspapersList = root.getElementsByTagName(NEWSPAPER.getValue());
+
             for (int i = 0; i < newspapersList.getLength(); i++) {
                 Element newspaperElement = (Element) newspapersList.item(i);
                 AbstractPaper newspaper = buildPaper(newspaperElement);
                 papers.add(newspaper);
             }
+
             NodeList magazineList = root.getElementsByTagName(MAGAZINE.getValue());
+
             for (int i = 0; i < magazineList.getLength(); i++) {
                 Element magazineElement = (Element) magazineList.item(i);
                 AbstractPaper magazine = buildPaper(magazineElement);
                 papers.add(magazine);
             }
+
         } catch (IOException | SAXException e) {
             logger.log(Level.ERROR, "Any SAX or IO Exception during parsing {}", fileName);
         }
+
+        logger.log(Level.INFO, "DOM parsing has finished successfully");
     }
 
     private AbstractPaper buildPaper(Element paperElement) throws XmlTaskException {
@@ -71,8 +80,7 @@ public class PapersDomBuilder extends AbstractPaperBuilder {
             ((Newspaper) paper).setColor(Boolean.parseBoolean(tempText));
         } else if (paperElement.getTagName().equals(MAGAZINE.getValue())) {
             paper = new Magazine();
-            tempText = getElementTextContent(paperElement, DIRECTION.getValue());
-            ((Magazine) paper).setDirection(Direction.valueOf(tempText.toUpperCase()));
+            ((Magazine) paper).setDirection(getElementTextContent(paperElement, DIRECTION.getValue()));
         } else {
             throw new XmlTaskException("Unreachable exception");
         }
@@ -104,6 +112,7 @@ public class PapersDomBuilder extends AbstractPaperBuilder {
         NodeList nList = element.getElementsByTagName(elementName);
         Node node = nList.item(0);
         String text = node.getTextContent();
+
         return text;
     }
 }

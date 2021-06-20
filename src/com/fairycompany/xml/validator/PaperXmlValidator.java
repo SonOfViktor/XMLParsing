@@ -17,13 +17,13 @@ import java.io.IOException;
 
 public class PaperXmlValidator {
     private static Logger logger = LogManager.getLogger();
+    private static final String SCHEMA_NAME = "resources/data/papers.xsd";
 
     public static Boolean validatePaperXml(String fileName) {
         boolean isXmlRight = false;
         String language = XMLConstants.W3C_XML_SCHEMA_NS_URI;
-        String schemaName = "resources/data/papers.xsd";
         SchemaFactory factory = SchemaFactory.newInstance(language);
-        File schemaLocation = new File(schemaName);
+        File schemaLocation = new File(SCHEMA_NAME);
 
         try {
             Schema schema = factory.newSchema(schemaLocation);
@@ -32,12 +32,15 @@ public class PaperXmlValidator {
             validator.setErrorHandler(new PaperErrorHandler());
             validator.validate(source);
             isXmlRight = true;
+
             logger.log(Level.DEBUG, "File is valid");
-        } catch (SAXException e) {                                                      // null and empty catch
-            logger.log(Level.ERROR, "{} or {} is not correct of valid", fileName, schemaName);
+
+        } catch (SAXException e) {
+            logger.log(Level.ERROR, "{} or {} is not correct of valid", fileName, SCHEMA_NAME);
         } catch (IOException e) {
             logger.log(Level.ERROR, "{} can't be read", fileName);
         }
+
         return isXmlRight;
     }
 }

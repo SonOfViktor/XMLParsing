@@ -11,6 +11,7 @@ public enum AgeCategory {
         char firstLetter = name().charAt(0);
         StringBuilder string = new StringBuilder(name().toLowerCase());
         string.deleteCharAt(0).insert(0, firstLetter);
+
         return string.toString();
     }
 }

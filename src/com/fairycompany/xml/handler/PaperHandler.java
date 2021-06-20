@@ -1,7 +1,6 @@
 package com.fairycompany.xml.handler;
 
 import com.fairycompany.xml.entity.AbstractPaper;
-import com.fairycompany.xml.entity.Direction;
 import com.fairycompany.xml.entity.Magazine;
 import com.fairycompany.xml.entity.Newspaper;
 import org.apache.logging.log4j.Level;
@@ -39,13 +38,14 @@ public class PaperHandler extends DefaultHandler {
 
     @Override
     public void startDocument() {
-        logger.log(Level.INFO, "Parsing started");
+        logger.log(Level.INFO, "SAX parsing has started");
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) {
         if (NEWSPAPER.getValue().equals(qName) || MAGAZINE.getValue().equals(qName)) {
             currentXmlTag = valueOf(qName.toUpperCase());
+
             switch (currentXmlTag) {
                 case NEWSPAPER:
                     currentPaper = new Newspaper();
@@ -54,11 +54,14 @@ public class PaperHandler extends DefaultHandler {
                     currentPaper = new Magazine();
                     break;
             }
+
             currentXmlTag = null;
             currentPaper.setAgeCategory(attributes.getValue(AGE_CATEGORY.getValue()));
+
             if (attributes.getLength() == 2) {
                 currentPaper.setWebsite(attributes.getValue(WEBSITE.getValue()));
             }
+
         } else {
             PaperXmlTag temp = valueOf(qName.toUpperCase().replace(HYPHEN, UNDERSCORE));
             if (withText.contains(temp)) {
@@ -70,6 +73,7 @@ public class PaperHandler extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) {
         String data = new String(ch, start, length).trim();
+
         if (currentXmlTag != null) {
             switch (currentXmlTag) {
                 case NAME:
@@ -100,12 +104,13 @@ public class PaperHandler extends DefaultHandler {
                     ((Newspaper) currentPaper).setFrequency(data);
                     break;
                 case DIRECTION:
-                    ((Magazine) currentPaper).setDirection(Direction.valueOf(data.toUpperCase()));
+                    ((Magazine) currentPaper).setDirection(data);
                     break;
                 default:
                     throw new EnumConstantNotPresentException(currentXmlTag.getDeclaringClass(), currentXmlTag.name());
             }
         }
+
         currentXmlTag = null;
     }
 
@@ -118,7 +123,7 @@ public class PaperHandler extends DefaultHandler {
 
     @Override
     public void endDocument() {
-        logger.log(Level.INFO, "Parsing ended");
+        logger.log(Level.INFO, "SAX parsing has finished successfully");
     }
 
     private LocalDate parseStringToLocalDate(String data) {

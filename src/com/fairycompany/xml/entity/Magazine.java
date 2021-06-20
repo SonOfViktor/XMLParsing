@@ -21,11 +21,35 @@ public class Magazine extends AbstractPaper {
         this.direction = direction;
     }
 
+    public void setDirection(String direction) {
+        this.direction = Direction.valueOf(direction.toUpperCase());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Magazine)) return false;
+        if (!super.equals(o)) return false;
+
+        Magazine magazine = (Magazine) o;
+
+        return direction == magazine.direction;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (direction != null ? direction.hashCode() : 0);
+
+        return result;
+    }
+
     @Override
     public String toString() {
         final StringBuilder magazine = new StringBuilder();
         magazine.append(super.toString())
                 .append("\nDirection: ").append(direction);
+
         return magazine.toString();
     }
 }

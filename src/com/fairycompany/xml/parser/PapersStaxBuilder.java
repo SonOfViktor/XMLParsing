@@ -1,7 +1,6 @@
 package com.fairycompany.xml.parser;
 
 import com.fairycompany.xml.entity.AbstractPaper;
-import com.fairycompany.xml.entity.Direction;
 import com.fairycompany.xml.entity.Magazine;
 import com.fairycompany.xml.entity.Newspaper;
 import com.fairycompany.xml.exception.XmlTaskException;
@@ -36,18 +35,24 @@ public class PapersStaxBuilder extends AbstractPaperBuilder {
 
     public void buildSetPapers(String fileName) throws XmlTaskException {
         AbstractPaper paper = null;
+
         if (!PaperXmlValidator.validatePaperXml(fileName)) {
             throw new XmlTaskException("File " + fileName + " hasn't passed validation!");
         }
+
         try {
+            logger.log(Level.INFO, "StAX parsing has started");
             XMLEventReader reader = inputFactory.createXMLEventReader(new FileInputStream(fileName));
+
             while (reader.hasNext()) {
                 XMLEvent event = reader.nextEvent();
+
                 if (event.isStartElement()) {
                     StartElement startElement = event.asStartElement();
                     String textElement = startElement.getName().getLocalPart();
                     PaperXmlTag currentXmlTag;
                     currentXmlTag = PaperXmlTag.valueOf(textElement.toUpperCase().replace(HYPHEN, UNDERSCORE));
+
                     switch (currentXmlTag) {
                         case NEWSPAPER:
                             paper = new Newspaper();
@@ -89,14 +94,16 @@ public class PapersStaxBuilder extends AbstractPaperBuilder {
                             break;
                         case DIRECTION:
                             event = reader.nextEvent();
-                            ((Magazine) paper).setDirection(Direction.valueOf(event.asCharacters().getData().toUpperCase()));
+                            ((Magazine) paper).setDirection(event.asCharacters().getData());
                             break;
                         default:
+
                             if (event.isStartElement()) {
                                 StartElement startElementProperty = event.asStartElement();
                                 textElement = startElementProperty.getName().getLocalPart();
                                 currentXmlTag = PaperXmlTag.valueOf(textElement.toUpperCase()
                                         .replace(HYPHEN, UNDERSCORE));
+
                                 switch (currentXmlTag) {
                                     case ISSUE:
                                         event = reader.nextEvent();
@@ -123,6 +130,7 @@ public class PapersStaxBuilder extends AbstractPaperBuilder {
 
                     }
                 }
+
                 if (event.isEndElement()) {
                     EndElement endElement = event.asEndElement();
                     String textElement = endElement.getName().getLocalPart();
@@ -131,8 +139,11 @@ public class PapersStaxBuilder extends AbstractPaperBuilder {
                     }
                 }
             }
+
         } catch (FileNotFoundException | XMLStreamException e) {
             logger.log(Level.ERROR, "Error with the underlying XML {}", fileName);
         }
+
+        logger.log(Level.INFO, "StAX parsing has finished successfully");
     }
 }

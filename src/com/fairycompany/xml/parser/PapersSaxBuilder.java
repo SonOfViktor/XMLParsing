@@ -21,6 +21,7 @@ public class PapersSaxBuilder extends AbstractPaperBuilder {
 
     public PapersSaxBuilder() {
         SAXParserFactory factory = SAXParserFactory.newInstance();
+
         try {
             SAXParser saxParser = factory.newSAXParser();
             reader = saxParser.getXMLReader();
@@ -29,6 +30,7 @@ public class PapersSaxBuilder extends AbstractPaperBuilder {
         } catch (SAXException e) {
             logger.log(Level.ERROR, "any SAX errors occur during processing");
         }
+
         reader.setContentHandler(handler);
     }
 
@@ -37,11 +39,13 @@ public class PapersSaxBuilder extends AbstractPaperBuilder {
         if (!PaperXmlValidator.validatePaperXml(fileName)) {
             throw new XmlTaskException(String.format("File %s hasn't passed validation!", fileName));
         }
+
         try {
             reader.parse(fileName);
         } catch (IOException | SAXException e) {
             logger.log(Level.ERROR, "Any SAX or IO Exception during parsing {}", fileName);
         }
+
         papers = handler.getPapers();
     }
 }

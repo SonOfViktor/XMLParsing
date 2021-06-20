@@ -55,7 +55,7 @@ public abstract class AbstractPaper {
     }
 
     public void setAgeCategory(String ageCategory) {
-        this.ageCategory = AgeCategory.valueOf(ageCategory.toUpperCase());      // can I do this?
+        this.ageCategory = AgeCategory.valueOf(ageCategory.toUpperCase());
     }
 
     public int getCirculation() {
@@ -75,6 +75,35 @@ public abstract class AbstractPaper {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        AbstractPaper that = (AbstractPaper) o;
+
+        if (circulation != that.circulation) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (subscriptionIndex != null ? !subscriptionIndex.equals(that.subscriptionIndex) : that.subscriptionIndex != null)
+            return false;
+        if (website != null ? !website.equals(that.website) : that.website != null) return false;
+        if (ageCategory != that.ageCategory) return false;
+
+        return paperProperties != null ? paperProperties.equals(that.paperProperties) : that.paperProperties == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (subscriptionIndex != null ? subscriptionIndex.hashCode() : 0);
+        result = 31 * result + (website != null ? website.hashCode() : 0);
+        result = 31 * result + (ageCategory != null ? ageCategory.hashCode() : 0);
+        result = 31 * result + circulation;
+        result = 31 * result + (paperProperties != null ? paperProperties.hashCode() : 0);
+
+        return result;
+    }
+
+    @Override
     public String toString() {
         final StringBuilder paper = new StringBuilder("");
         if (getWebsite() != null) {
@@ -85,6 +114,7 @@ public abstract class AbstractPaper {
                 .append("\nSubscription index: ").append(subscriptionIndex)
                 .append(paperProperties)
                 .append("\nCirculation: ").append(circulation);
+
         return paper.toString();
     }
 }
